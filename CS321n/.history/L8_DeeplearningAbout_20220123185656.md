@@ -1,0 +1,96 @@
+# DeepLearning About
+
+## LIST
+
+1. CPUs and GPUs
+2. Hyperparameters
+3. Image
+
+
+## CPUs and GPUs
+
+- CPU ： Central Processing Unit
+  - Fewer cores but each cores is much faster and much more capable
+  - Great at squential  tasks
+- GPU :  Graphics Processing Unit
+  - More cores,but each core is much slower and "dumber"
+  - Great for parallel tasks,like mutipulation of matrix
+
+![avatar](./L8_Pic1.png)
+
+In deeplearning,we usaully use NVIDIA rather than AMD.
+
+### Programming on GPUs
+- CUDA(NVIDIA only)
+  - Write C-like code that run directly on GPU
+  - Higher level APIs:cuBLAS,cuFFT,cuDNN,etc
+- OpenCL
+  - Similer to CUDA,but runs on anything
+  - Usually slower
+
+### Disk
+The model is stored in GPUs but the large data are stored in the disk.If uncarefully,the trainning can bottleneck on reading data and transfering to GPU.
+
+Solution:
+- Read all data into RAM
+- Use SSD instead of HDD
+- Use mutiple CPU threads to perfetch data.
+
+## DeepLearning Framework
+
+Points of learning frame:
+  1. Easy to build big computational graphs
+  2. Easy to compute gradients in computational graphs
+  3. Run in efficiently on GPU
+
+Main Framework
+
+- Caffe 
+- Torch --> Pytorch
+- Theano --> TensorFlow
+
+Numpy's Problem:
+- Cannot work on GPUs
+- Have to calulate the gradients with our own.
+
+### Torch
+- Three level of abstraction
+  - Tensor:Imperative(重要的) ndarray but run on GPU
+  - Variable:Node in a computational graph;stores data and gradient
+  - Module:A neural network layer(nn.Module);may store state or learnable weights
+
+- Coding step
+  - Create random tensors for data and weights
+  - Forward pass:compute the prediction and loss
+  - Backward pass:manually compute gradients
+  - Update the weight
+
+To run on GPU,just casy tensors to a cuda data type.
+```python
+dtype = torch.cuda.FloatTensor
+```
+
+#### example
+```python
+import torch
+from torch.autograd import Variable
+
+dtype = torch.cuda.FloatTensor
+
+N,D_in,H,Dout = 64,1000,100,10
+x = Variable(torch.randn(N,D_in).type(dtype),required_grad = False)
+x = Variable(torch.randn(N,D_out).type(dtype),required_grad = False)
+x = Variable(torch.randn(D_in,H).type(dtype),required_grad = False)
+x = Variable(torch.randn(H,D_out).type(dtype),required_grad = False)
+
+learning_rate = 1e-6
+learning_time = 500
+
+for t in range(learning_time)
+    h = x.mm(w1)
+    h_relu = h.clamp(min=0)
+    y_pred = h_relu.mm(w2)
+    loss = (y-y.pred).pow(2).sum()
+
+    grad_y_pred = 2.0 *
+```

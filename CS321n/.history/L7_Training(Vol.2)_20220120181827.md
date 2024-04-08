@@ -1,0 +1,15 @@
+#  Trainning 
+Volume 2
+
+## Outline
+
+1. Fancier optimization
+2. Regularization
+3. Transfer Learning
+
+## Fancier Optimization
+### SGD Problem
+$$x_{t+1} = x_t - \alpha \nabla f(x_t)$$
+   1. Trap into a local minmum or saddle point
+   2. Loss comes from random mini-batch that noise.
+### Improve:SGD+Momentum
